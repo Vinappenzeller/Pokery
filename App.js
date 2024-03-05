@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, View, Text } from "react-native";
-import PlayButtonComponent from "./components/playbutton";
-import ButtonComponent from "./components/button";
-import CustomInput from "./components/customInput";
+import { StyleSheet, View, Text, Button, TextInput, Alert } from "react-native";
+import axios from 'axios';
+
 import CharacterSelectionScreen from "./components/CharacterSelectionScreen";
 import RoundSettingsScreen from "./components/RoundSettingsScreen";
 import GameScreen from "./components/GameScreen";
@@ -17,9 +16,19 @@ export default function App() {
   const [showCharacterSelection, setShowCharacterSelection] = useState(false);
   const [showRoundSettings, setShowRoundSettings] = useState(false);
 
-  const handleButtonPress = () => {
+  const handleButtonPress = async () => {
     if (playerName !== "" && selectedCharacters.length > 0) {
-      setShowRoundSettings(true);
+      try {
+        // Simulate the backend URL with a placeholder
+        const response = await axios.post('http://your-backend-url/start-game', {
+          playerName,
+          selectedCharacters
+        });
+        setShowRoundSettings(true);
+      } catch (error) {
+        console.error('Error starting game:', error);
+        Alert.alert('Error', 'Failed to start game. Please try again later.');
+      }
     } else {
       alert("Please enter your name and choose at least one character.");
     }
@@ -55,38 +64,74 @@ export default function App() {
   );
 
   function HomeScreen({ navigation }) {
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        flexDirection: "column",
+        backgroundColor: "#97704f",
+      },
+      Text: {
+        color: "white",
+        fontSize: 40,
+        fontWeight: "bold",
+      },
+      topBarContainer: {
+        backgroundColor: "#4d0000",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+      },
+      bottomBarContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+        borderTopWidth: 0,
+        borderTopColor: "#4d0000",
+      },
+      input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        flex: 1,
+        marginRight: 10,
+      },
+    });
+  
     return (
       <View style={styles.container}>
         <View style={styles.topBarContainer}>
           <Text style={styles.Text}>Pokery</Text>
         </View>
         <View style={styles.bottomBarContainer}>
-          <CustomInput
+          <TextInput
+            style={styles.input}
             placeholder="Who are you?"
-            onChangeText={setPlayerName} // Updated to directly set playerName
+            onChangeText={setPlayerName}
             value={playerName}
           />
         </View>
         <View style={styles.bottomBarContainer}>
-          <PlayButtonComponent
+          <Button
             onPress={handleButtonPress}
             title="Play"
-            style={{ marginRight: 10 }}
             disabled={playerName === "" || selectedCharacters.length === 0}
           />
-          <ButtonComponent
+          <Button
             onPress={() => setShowCharacterSelection(true)}
             title="Select Characters"
           />
         </View>
-
+  
         {showCharacterSelection && (
           <CharacterSelectionScreen
             onSelectCharacter={handleSelectCharacter}
             onClose={() => setShowCharacterSelection(false)}
           />
         )}
-
+  
         {showRoundSettings && (
           <RoundSettingsScreen
             onClose={handleCloseRoundSettings}
@@ -96,33 +141,41 @@ export default function App() {
       </View>
     );
   }
-}
+  
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column", // Make the container a column
-    backgroundColor: "#97704f",
-  },
-  Text: {
-    color: "white",
-    fontSize: 40,
-    fontWeight: "bold",
-  },
-  topBarContainer: {
-    backgroundColor: "#4d0000",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10, // Adjust the padding as needed
-  },
-  bottomBarContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 5, // Adjust the padding as needed
-    borderTopWidth: 0, // Add a border at the top of the bottomBarContainer
-    borderTopColor: "#4d0000", // Set the border color to match topBarContainer
-  },
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "column",
+      backgroundColor: "#97704f",
+    },
+    Text: {
+      color: "white",
+      fontSize: 40,
+      fontWeight: "bold",
+    },
+    topBarContainer: {
+      backgroundColor: "#4d0000",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 10,
+    },
+    bottomBarContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 10,
+      paddingHorizontal: 5,
+      borderTopWidth: 0,
+      borderTopColor: "#4d0000",
+    },
+    input: {
+      height: 40,
+      borderColor: 'gray',
+      borderWidth: 1,
+      flex: 1,
+      marginRight: 10,
+    },
+  });
+}

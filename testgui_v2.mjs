@@ -8,7 +8,7 @@ let testOpponents = ["Monika", "Sarah", "Jeff"]
 let drawAmount
 i = 0
 
-let gameOn = true
+let gameOn = true 
 function gameStart()
 {
 

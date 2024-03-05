@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import axios from 'axios';
 
 const GameScreen = ({ playerName, selectedCharacters = [] }) => {
+  const [gameState, setGameState] = useState(null);
+
+  useEffect(() => {
+    // Fetch game state from the backend when component mounts
+    fetchGameState();
+  }, []);
+
+  const fetchGameState = async () => {
+    try {
+      // Fetch game state from the backend
+      const response = await axios.get('http://your-backend-url/game-state');
+      setGameState(response.data);
+    } catch (error) {
+      console.error('Error fetching game state:', error);
+    }
+  };
+
+  if (!gameState) {
+    // Render loading indicator if game state is not available yet
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -22,8 +49,8 @@ const GameScreen = ({ playerName, selectedCharacters = [] }) => {
         <Text style={styles.playerName}>{playerName}</Text>
         {/* Poker Table */}
         <View style={styles.table}>
-          {/* Design your poker table here */}
-          <Text style={styles.tableText}>Poker Table</Text>
+          {/* Display game state on the table */}
+          <Text style={styles.tableText}>Game State: {gameState}</Text>
         </View>
       </View>
     </View>
