@@ -19,8 +19,8 @@ export default function App() {
   const handleButtonPress = async () => {
     if (playerName !== "" && selectedCharacters.length > 0) {
       try {
-        // Simulate the backend URL with a placeholder
-        const response = await axios.post('http://your-backend-url/start-game', {
+       
+        const response = await axios.post( {
           playerName,
           selectedCharacters
         });
@@ -48,9 +48,9 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#4d0000", // Brown color
+            backgroundColor: "#4d0000", 
           },
-          headerTintColor: "#fff", // White text color
+          headerTintColor: "#fff", 
           headerTitleStyle: {
             fontWeight: "bold",
             fontSize: 20,

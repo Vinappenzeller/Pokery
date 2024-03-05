@@ -6,14 +6,14 @@ const GameScreen = ({ playerName, selectedCharacters = [] }) => {
   const [gameState, setGameState] = useState(null);
 
   useEffect(() => {
-    // Fetch game state from the backend when component mounts
+    
     fetchGameState();
   }, []);
 
   const fetchGameState = async () => {
     try {
-      // Fetch game state from the backend
-      const response = await axios.get('http://your-backend-url/game-state');
+ 
+      const response = await axios.get();
       setGameState(response.data);
     } catch (error) {
       console.error('Error fetching game state:', error);
@@ -21,7 +21,7 @@ const GameScreen = ({ playerName, selectedCharacters = [] }) => {
   };
 
   if (!gameState) {
-    // Render loading indicator if game state is not available yet
+    
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   table: {
     backgroundColor: '#0f4f0f',
     width: '80%',
-    aspectRatio: 1, // Maintain aspect ratio
+    aspectRatio: 1, 
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
