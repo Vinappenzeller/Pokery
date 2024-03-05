@@ -90,14 +90,21 @@ export default function App() {
         paddingHorizontal: 5,
         borderTopWidth: 0,
         borderTopColor: "#4d0000",
+        backgroundColor: "#4D0000",
       },
       input: {
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
         flex: 1,
+        maxWidth: "60%", 
         marginRight: 10,
+        backgroundColor: '#d2a679', 
       },
+      button: {
+        backgroundColor: '#4D0000', 
+        color: '#d2a679', 
+      }
     });
   
     return (
@@ -118,10 +125,12 @@ export default function App() {
             onPress={handleButtonPress}
             title="Play"
             disabled={playerName === "" || selectedCharacters.length === 0}
+            style={styles.button}
           />
           <Button
             onPress={() => setShowCharacterSelection(true)}
             title="Select Characters"
+            style={styles.button}
           />
         </View>
   
@@ -141,41 +150,4 @@ export default function App() {
       </View>
     );
   }
-  
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: "column",
-      backgroundColor: "#97704f",
-    },
-    Text: {
-      color: "white",
-      fontSize: 40,
-      fontWeight: "bold",
-    },
-    topBarContainer: {
-      backgroundColor: "#4d0000",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      paddingVertical: 10,
-    },
-    bottomBarContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      paddingVertical: 10,
-      paddingHorizontal: 5,
-      borderTopWidth: 0,
-      borderTopColor: "#4d0000",
-    },
-    input: {
-      height: 40,
-      borderColor: 'gray',
-      borderWidth: 1,
-      flex: 1,
-      marginRight: 10,
-    },
-  });
 }
