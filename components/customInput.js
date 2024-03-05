@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginHorizontal: 100, 
     height: 40,
     width: 200,
     borderColor: 'gray',
@@ -28,5 +27,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
+
 
 export default CustomInput;
